@@ -1,0 +1,8 @@
+---
+ - name: Lets start Installation of HTTPD
+   yum:
+     name: httpd
+     state: present
+
+
+

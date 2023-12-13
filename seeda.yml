@@ -1,0 +1,40 @@
+---
+- name: Hey its good that you are going to write long yaml file, This is Installation of httpd server
+  hosts: WEB
+  become: yes
+  tasks:
+    - name: Lets start Installation of HTTPD
+      yum:
+        name: httpd
+        state: present
+
+    - name: Let start httpd 
+      service:
+        name: httpd
+        state: started
+
+    - name: open service in firewall
+      ansible.posix.firewalld:
+        port: 80/tcp
+        permanent: true
+        state: enabled
+        immediate: yes
+
+    
+    - name: Lets reload firewall rules
+      systemd:
+        name: firewalld
+        state: restarted
+
+    - name: Copy Index.html from /tmp to /var/www/html folder
+      copy:
+        src: /tmp/index.html
+        dest: /var/www/html
+
+    - name: restart apache server
+      service:
+        name: httpd
+        state: restarted
+
+...
+            

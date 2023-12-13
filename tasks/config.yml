@@ -1,0 +1,18 @@
+---
+ - name: open service in firewall
+   ansible.posix.firewalld:
+     port: 80/tcp
+     permanent: true
+     state: enabled
+     immediate: yes
+
+
+ - name: Lets reload firewall rules
+   systemd:
+     name: firewalld
+     state: restarted
+ - name: Copy Index.html from /tmp to /var/www/html folder
+   copy:
+     src: files/index.html
+     dest: /var/www/html
+
